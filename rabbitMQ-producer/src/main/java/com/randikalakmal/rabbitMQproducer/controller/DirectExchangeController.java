@@ -17,9 +17,14 @@ public class DirectExchangeController {
     @Autowired
     private DirectExchange exchange;
 
-    @PostMapping("/DirectPost")
-    public String send(@RequestBody Message message){
+    @PostMapping("/DirectPost/A")
+    public String sendA(@RequestBody Message message){
         rabbitTemplate.convertAndSend(exchange.getName(),"routing.A",message);
-        return "Message Sent Successfully";
+        return "Message Sent Successfully to A";
+    }
+    @PostMapping("/DirectPost/B")
+    public String sendB(@RequestBody Message message){
+        rabbitTemplate.convertAndSend(exchange.getName(),"routing.B",message);
+        return "Message Sent Successfully to B";
     }
 }

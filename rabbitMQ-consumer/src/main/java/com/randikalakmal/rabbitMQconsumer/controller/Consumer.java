@@ -19,4 +19,9 @@ public class Consumer {
         log.info("Message Received from QUEUE B --> {}",message);
     }
 
+    @RabbitListener(queues = "Queue.All")
+    private void receiveFromQueueAll(Message message){
+        log.info("Message Received from QUEUE All --> {}",message);
+    }
+
 }

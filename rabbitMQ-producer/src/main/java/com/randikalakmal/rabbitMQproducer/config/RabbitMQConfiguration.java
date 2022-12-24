@@ -25,6 +25,18 @@ public class RabbitMQConfiguration {
     }
 
     @Bean
+    Queue queueAll(){
+        return new Queue("Queue.All",false);
+    }
+
+    @Bean
+    TopicExchange topicExchange(){
+        return new TopicExchange("exchange.topic");
+    }
+
+
+
+    @Bean
     DirectExchange exchange(){
         return new DirectExchange("exchange.direct");
     }
@@ -58,6 +70,27 @@ public class RabbitMQConfiguration {
     Binding bindingBWithFanOut(Queue queueB,FanoutExchange fanoutExchange){
         return BindingBuilder.bind(queueB)
                 .to(fanoutExchange);
+    }
+
+    @Bean
+    Binding bindingAWithTopic(Queue queueA,TopicExchange topicExchange){
+        return BindingBuilder.bind(queueA)
+                .to(topicExchange)
+                .with(ROUTING_A);
+    }
+
+    @Bean
+    Binding bindingBWithTopic(Queue queueB,TopicExchange topicExchange){
+        return BindingBuilder.bind(queueB)
+                .to(topicExchange)
+                .with(ROUTING_B);
+    }
+
+    @Bean
+    Binding bindingAllWithTopic(Queue queueAll,TopicExchange topicExchange){
+        return BindingBuilder.bind(queueAll)
+                .to(topicExchange)
+                .with("routing.*");
     }
 
     @Bean

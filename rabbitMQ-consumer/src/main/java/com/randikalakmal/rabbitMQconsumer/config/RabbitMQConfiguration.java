@@ -25,6 +25,33 @@ public class RabbitMQConfiguration {
     }
 
     @Bean
+    Queue queueAll(){
+        return new Queue("Queue.All",false);
+    }
+
+
+    @Bean
+    Queue queueHeaderA(){
+        return new Queue("Queue.HeaderA",false);
+    }
+
+    @Bean
+    Queue queueHeaderB(){
+        return new Queue("Queue.HeaderB",false);
+    }
+
+    @Bean
+    Queue queueHeaderAll(){
+        return new Queue("Queue.HeaderAll",false);
+    }
+
+
+    @Bean
+    TopicExchange topicExchange(){
+        return new TopicExchange("exchange.topic");
+    }
+
+    @Bean
     DirectExchange exchange(){
         return new DirectExchange("exchange.direct");
     }
@@ -32,6 +59,11 @@ public class RabbitMQConfiguration {
     @Bean
     FanoutExchange fanoutExchange(){
         return new FanoutExchange("exchange.fanout");
+    }
+
+    @Bean
+    HeadersExchange headersExchange(){
+        return new HeadersExchange("exchange.header");
     }
 
     @Bean
@@ -59,6 +91,53 @@ public class RabbitMQConfiguration {
         return BindingBuilder.bind(queueB)
                 .to(fanoutExchange);
     }
+
+    @Bean
+    Binding bindingAWithTopic(Queue queueA,TopicExchange topicExchange){
+        return BindingBuilder.bind(queueA)
+                .to(topicExchange)
+                .with(ROUTING_A);
+    }
+
+    @Bean
+    Binding bindingBWithTopic(Queue queueB,TopicExchange topicExchange){
+        return BindingBuilder.bind(queueB)
+                .to(topicExchange)
+                .with(ROUTING_B);
+    }
+
+    @Bean
+    Binding bindingAllWithTopic(Queue queueAll,TopicExchange topicExchange){
+        return BindingBuilder.bind(queueAll)
+                .to(topicExchange)
+                .with("routing.*");
+    }
+
+
+    @Bean
+    Binding bindingAWithHeader(Queue queueHeaderA,HeadersExchange headersExchange){
+        return BindingBuilder.bind(queueHeaderA)
+                .to(headersExchange)
+                .where("name")
+                .matches("A");
+    }
+
+    @Bean
+    Binding bindingBWithHeader(Queue queueHeaderB,HeadersExchange headersExchange){
+        return BindingBuilder.bind(queueHeaderB)
+                .to(headersExchange)
+                .where("name")
+                .matches("B");
+    }
+
+    @Bean
+    Binding bindingAllWithHeader(Queue queueHeaderAll,HeadersExchange headersExchange){
+        return BindingBuilder.bind(queueHeaderAll)
+                .to(headersExchange)
+                .where("name")
+                .matches("All");
+    }
+
 
     @Bean
     MessageConverter messageConverter(){

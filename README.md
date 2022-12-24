@@ -1,4 +1,4 @@
-# rabbitmq-with-springboot
+# Rabbitmq with springboot
 Sample project for using rabbitmq with spring boot 
 
 Project Include Following Exchange Types
@@ -8,7 +8,7 @@ Project Include Following Exchange Types
   4) Header Exchange
   
 
-PostMan Export File is Included.
+##PostMan Export File is Included.
 
 ## Use RabbitMQ in Docker
 Use the follwoing comand to run RabbitMQ in Docker
